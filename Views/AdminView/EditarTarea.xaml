@@ -1,0 +1,300 @@
+﻿<UserControl x:Class="TDL.EditarTarea"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:TDL"
+             mc:Ignorable="d"
+             d:DesignHeight="650"
+             d:DesignWidth="1200">
+
+    <Grid Background="#F5F7FA">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1.2*"/>
+        </Grid.ColumnDefinitions>
+
+      
+
+        <Border Grid.Column="0"
+                Margin="15"
+                Background="White"
+                CornerRadius="12"
+                Padding="15"
+                BorderBrush="#E5E7EB"
+                BorderThickness="1">
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                
+                <TextBlock Text="Listado de Tareas"
+                           FontSize="22"
+                           FontWeight="Bold"
+                           Foreground="#1F2937"
+                           Margin="5"/>
+
+
+                <DataGrid x:Name="dgtareas"
+                          Grid.Row="1"
+                          Margin="0,15,0,0"
+                          AutoGenerateColumns="False"
+                          SelectionMode="Single"
+                          SelectionChanged="dgtareas_SelectionChanged"
+                          HeadersVisibility="Column"
+                          RowBackground="White"
+                          AlternatingRowBackground="#F9FAFB"
+                          BorderThickness="0"
+                          GridLinesVisibility="Horizontal"
+                          HorizontalGridLinesBrush="#E5E7EB"
+                          RowHeight="NaN">
+
+                    <DataGrid.Columns>
+
+                        <DataGridTemplateColumn Header="Título" Width="2*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Titulo}"
+                               TextWrapping="Wrap"
+                               Margin="5"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Descripcion" Width="2*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Descripcion}"
+                               TextWrapping="Wrap"
+                               Margin="5"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Estado" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Estado}"
+                               TextWrapping="Wrap"
+                               Margin="5"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Prioridad" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Prioridad}"
+                               TextWrapping="Wrap"
+                               Margin="5"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Técnico" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Tecnico}"
+                               TextWrapping="Wrap"
+                               Margin="5"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTemplateColumn Header="Fecha límite" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Fecha_limite, StringFormat=dd/MM/yyyy}"
+                               TextWrapping="Wrap"
+                               Margin="5"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+            </Grid>
+
+        </Border>
+
+      
+
+        <Border Grid.Column="1"
+                Margin="0,15,15,15"
+                Background="White"
+                CornerRadius="12"
+                Padding="20"
+                BorderBrush="#E5E7EB"
+                BorderThickness="1">
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          Padding="0,0,10,0">
+
+                <StackPanel>
+
+                    <!-- TITULO -->
+                    <TextBlock Text="Editar Tarea"
+                               FontSize="24"
+                               FontWeight="Bold"
+                               Foreground="#1F2937"
+                               Margin="0,0,0,25"/>
+
+                    <!-- TITULO -->
+                    <TextBlock Text="Título"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,5"/>
+
+                    <TextBox x:Name="txttitulo"
+                             Height="35"
+                             Padding="8"
+                             Margin="0,0,0,15"/>
+
+                    <!-- DESCRIPCION -->
+                    <TextBlock Text="Descripción"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,5"/>
+
+                    <TextBox x:Name="txtdescripcion"
+                             Height="90"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             Padding="8"
+                             Margin="0,0,0,15"/>
+
+                    <!-- JUSTIFICACION -->
+                    <TextBlock Text="Justificación"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,5"/>
+
+                    <TextBox x:Name="txtjustificacion"
+                             Height="80"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"
+                             Padding="8"
+                             Margin="0,0,0,15"/>
+
+                    <!-- ESTADO -->
+                    <TextBlock Text="Estado"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,5"/>
+
+                    <ComboBox x:Name="cbestado"
+                              Height="35"
+                              Margin="0,0,0,15"
+                              DisplayMemberPath="Estado"
+                              SelectedValuePath="ID"/>
+
+                    <!-- PRIORIDAD -->
+                    <TextBlock Text="Prioridad"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,5"/>
+
+                    <ComboBox x:Name="cbprioridad"
+                              Height="35"
+                              Margin="0,0,0,15"
+                              DisplayMemberPath="Prioridad"
+                              SelectedValuePath="ID"/>
+
+                    <!-- TECNICO -->
+                    <TextBlock Text="Técnico"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,5"/>
+
+                    <ComboBox x:Name="cbtecnico"
+                              Height="35"
+                              Margin="0,0,0,15"
+                              DisplayMemberPath="Nombre"
+                              SelectedValuePath="ID"/>
+
+                    <!-- FECHA -->
+                    <TextBlock Text="Fecha límite"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,5"/>
+
+                    <DatePicker x:Name="dpfecha"
+                                Height="35"
+                                Margin="0,0,0,25"/>
+
+                    <!-- BOTONES -->
+                    <StackPanel Orientation="Vertical"
+                                HorizontalAlignment="Stretch"
+                                Margin="0,15,0,0">
+
+                        <!-- GUARDAR -->
+                        <Button x:Name="btnguardar"
+                                Content="Guardar Cambios"
+                                Height="42"
+                                Margin="0,0,0,10"
+                                Background="#1E2D6B"
+                                Foreground="White"
+                                BorderThickness="0"
+                                FontWeight="SemiBold"
+                                FontSize="14"
+                                Cursor="Hand"
+                                Click="btnguardar_Click">
+
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+
+                                    <Border Background="{TemplateBinding Background}"
+                        CornerRadius="8">
+
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                                    </Border>
+
+                                </ControlTemplate>
+                            </Button.Template>
+
+                        </Button>
+
+                        <!-- ELIMINAR -->
+                        <Button x:Name="btneliminar"
+                                Content="Eliminar Tarea"
+                                Height="42"
+                                Margin="0,0,0,10"
+                                Background="#DC2626"
+                                Foreground="White"
+                                BorderThickness="0"
+                                FontWeight="SemiBold"
+                                FontSize="14"
+                                Cursor="Hand"
+                                Click="btneliminar_Click">
+
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+
+                                    <Border Background="{TemplateBinding Background}"
+                        CornerRadius="8">
+
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                                    </Border>
+
+                                </ControlTemplate>
+                            </Button.Template>
+
+                        </Button>
+
+                        <!-- VOLVER -->
+
+
+                    </StackPanel>
+
+                </StackPanel>
+
+            </ScrollViewer>
+
+        </Border>
+
+    </Grid>
+</UserControl>

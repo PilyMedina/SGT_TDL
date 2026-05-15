@@ -1,0 +1,300 @@
+﻿<UserControl x:Class="TDL.TecnicoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TDL"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="963.5">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- IZQUIERDA -->
+            <ColumnDefinition Width="Auto"/>
+            <!-- DERECHA -->
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- IZQUIERDA: LISTA DE TAREAS -->
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+
+            <ItemsControl ItemsSource="{Binding ListaTareas}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="10"
+                            Padding="15"
+                            CornerRadius="12"
+                            Width="500"
+                            Background="White"
+                            BorderThickness="5,0,0,0">
+
+                            <!-- COLOR LATERAL -->
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="BorderBrush" Value="#E5E7EB"/>
+
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ID_prioridad}" Value="1">
+                                            <Setter Property="BorderBrush" Value="#EF4444"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ID_prioridad}" Value="2">
+                                            <Setter Property="BorderBrush" Value="#F59E0B"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ID_prioridad}" Value="3">
+                                            <Setter Property="BorderBrush" Value="#10B981"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+
+                           
+
+                            <StackPanel>
+
+                                <!-- TITULO -->
+                                <TextBlock Text="{Binding Titulo}"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Foreground="#111827"
+                       TextWrapping="Wrap"/>
+
+                                <!-- DESCRIPCION -->
+                                <TextBlock Text="{Binding Descripcion}"
+                       FontSize="13"
+                       Foreground="#6B7280"
+                       Margin="0,5,0,10"
+                       TextWrapping="Wrap"/>
+
+                                <!-- PRIORIDAD (BADGE PRO) -->
+                                <Border CornerRadius="8"
+                    Padding="8,3"
+                    HorizontalAlignment="Left">
+
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="#9CA3AF"/>
+
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ID_prioridad}" Value="1">
+                                                    <Setter Property="Background" Value="#EF4444"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ID_prioridad}" Value="2">
+                                                    <Setter Property="Background" Value="#F59E0B"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ID_prioridad}" Value="3">
+                                                    <Setter Property="Background" Value="#10B981"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+
+                                    <TextBlock Foreground="White"
+                           FontSize="12"
+                           FontWeight="Bold">
+
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="Sin prioridad"/>
+
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ID_prioridad}" Value="1">
+                                                        <Setter Property="Text" Value="Alta"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ID_prioridad}" Value="2">
+                                                        <Setter Property="Text" Value="Media"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding ID_prioridad}" Value="3">
+                                                        <Setter Property="Text" Value="Baja"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+
+                                    </TextBlock>
+                                </Border>
+
+                                <!-- ESTADO -->
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,5">
+                                    <RadioButton Content="En Proceso" Margin="5" Tag="2" Checked="Estado_Checked"/>
+                                    <RadioButton Content="Pendiente" Margin="5" Tag="3" Checked="Estado_Checked"/>
+                                    <RadioButton Content="No Completada" Margin="5" Tag="5" Checked="Estado_Checked"/>
+                                    <RadioButton Content="Cerrada" Margin="5" Tag="4" Checked="Estado_Checked"/>
+                                </StackPanel>
+
+                                <!-- JUSTIFICACION -->
+                                <StackPanel Orientation="Horizontal" Margin="0,10">
+
+                                    <StackPanel>
+                                        <TextBlock Text="Justificación / Solucion"
+                                   FontSize="12"
+                                   Foreground="#374151"/>
+
+                                        <TextBox Text="{Binding Justificacion, Mode=TwoWay}"
+                                         Width="220"
+                                         Height="70"
+                                         Background="#F9FAFB"
+                                         BorderBrush="#D1D5DB"
+                                         x:Name="justifi"/>
+                                    </StackPanel>
+
+                                    <Button Content="Guardar"
+                                        Background="#1E2D6B"
+                                        Foreground="White"
+                                        Width="100"
+                                        Height="35"
+                                        Margin="20,25,0,0"
+                                        BorderThickness="0"
+                                        Cursor="Hand"
+                                        Click="btnguardar"/>
+                                </StackPanel>
+
+                            </StackPanel>
+
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+        </ScrollViewer>
+
+
+        <StackPanel Grid.Column="1"
+            Margin="30"
+            VerticalAlignment="Center">
+
+            <!-- NOMBRE -->
+            <TextBlock Text="{Binding NombreTecnico}"
+               FontSize="28"
+               FontWeight="Bold"
+                       FontFamily="Cascadia Code"
+               Foreground="#111827"
+               TextAlignment="Center"
+               Margin="0,0,0,20"/>
+
+            <!-- CALENDARIO -->
+            <Border Background="White"
+            BorderBrush="#E5E7EB"
+            BorderThickness="1"
+            CornerRadius="12"
+            Padding="15"
+            Margin="0,0,0,25">
+
+                <Calendar x:Name="MiCalendario"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  FontFamily="Segoe UI"
+                  FontSize="14">
+
+                    <Calendar.Resources>
+
+                        <Style TargetType="CalendarDayButton">
+                            <Setter Property="Margin" Value="2"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="#374151"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="CalendarDayButton">
+                                        <Border x:Name="border"
+                                        Background="{TemplateBinding Background}"
+                                        CornerRadius="6">
+
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+                                        </Border>
+
+                                        <ControlTemplate.Triggers>
+
+                                            <!-- Hover -->
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border"
+                                                Property="Background"
+                                                Value="#E0F2FE"/>
+                                            </Trigger>
+
+                                            <!-- Seleccionado -->
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="border"
+                                                Property="Background"
+                                                Value="#3B82F6"/>
+                                                <Setter Property="Foreground"
+                                                Value="White"/>
+                                            </Trigger>
+
+                                            <!-- Hoy -->
+                                            <Trigger Property="IsToday" Value="True">
+                                                <Setter TargetName="border"
+                                                Property="BorderBrush"
+                                                Value="#3B82F6"/>
+                                                <Setter TargetName="border"
+                                                Property="BorderThickness"
+                                                Value="1"/>
+                                            </Trigger>
+
+                                            <!-- Inactivo -->
+                                            <Trigger Property="IsInactive" Value="True">
+                                                <Setter Property="Foreground"
+                                                Value="#9CA3AF"/>
+                                            </Trigger>
+
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+
+                    </Calendar.Resources>
+                </Calendar>
+            </Border>
+
+            <!-- BOTONES -->
+
+            <!-- VER TAREAS -->
+            <Button Content="Ver Tareas"
+            Height="40"
+            Margin="0,5"
+            Background="#132D6B"
+            Foreground="White"
+            FontWeight="SemiBold"
+            BorderThickness="0"
+            Cursor="Hand"
+            Click="VerTareas_click">
+
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <!-- CAMBIAR CONTRASEÑA -->
+            <Button Content="Cambiar Contraseña"
+            Height="40"
+            Margin="0,5"
+            Background="#1E2D6B"
+            Foreground="White"
+            FontWeight="SemiBold"
+            BorderThickness="0"
+            Cursor="Hand"
+            Click="Cambiarcontra_click"/>
+
+            <!-- CERRAR SESIÓN -->
+            <Button Content="Cerrar sesión"
+            Height="40"
+            Margin="0,5"
+            Background="#FF0017"
+            Foreground="White"
+            FontWeight="SemiBold"
+            BorderThickness="0"
+            Cursor="Hand"
+            Click="CerrarSesion_click"/>
+
+        </StackPanel>
+
+    </Grid>
+</UserControl>

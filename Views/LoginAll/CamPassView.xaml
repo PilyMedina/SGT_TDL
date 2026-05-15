@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="TDL.CamPassView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Height="550" Width="700"
+             Background="#F5F5F5">
+
+    <Grid Background="#F3F5F9">
+
+        <Border Width="420"
+                Padding="30"
+                CornerRadius="18"
+                Background="White"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                BorderBrush="#E6E6E6"
+                BorderThickness="1">
+
+            <StackPanel>
+
+                <!-- TITULO -->
+                <TextBlock Text="Cambiar Contraseña"
+                           FontSize="26"
+                           FontWeight="Bold"
+                           Foreground="#2C3E50"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,25"/>
+
+
+                <!-- NUEVA PASSWORD -->
+                <TextBlock Text="Nueva contraseña"
+                           FontSize="13"
+                           Foreground="#555"
+                           Margin="0,0,0,6"/>
+
+                <PasswordBox x:Name="txtNuevaPassword"
+                             Height="38"
+                             FontSize="14"
+                             Padding="8"
+                             Margin="0,0,0,18"
+                             BorderBrush="#D0D0D0"/>
+
+                <!-- CONFIRMAR PASSWORD -->
+                <TextBlock Text="Confirmar contraseña"
+                           FontSize="13"
+                           Foreground="#555"
+                           Margin="0,0,0,6"/>
+
+                <PasswordBox x:Name="txtConfirmarPassword"
+                             Height="38"
+                             FontSize="14"
+                             Padding="8"
+                             Margin="0,0,0,25"
+                             BorderBrush="#D0D0D0"/>
+
+                <!-- BOTON ACTUALIZAR -->
+                <Button Content="Actualizar contraseña"
+                        Click="btncambiar_Click"
+                        Height="42"
+                        FontSize="15"
+                        FontWeight="SemiBold"
+                        Background="#1E2D6B"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Margin="0,0,0,12"/>
+
+                <!-- BOTON VOLVER -->
+                <Button x:Name="btnvolver"
+                        Click="btnvolver_Click"
+                        Content="Volver"
+                        Height="42"
+                        FontSize="15"
+                        Background="#E74C3C"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                       
+                        />
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
