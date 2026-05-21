@@ -1,9 +1,11 @@
-﻿using System.Windows;
+﻿using DocumentFormat.OpenXml.InkML;
+using System.Windows;
 using System.Windows.Controls;
 using TDL.AdminView;
 using TDL.Data;
 using TDL.Repositories;
 using TDL.Services;
+using TDL.Services.Interfaces;
 
 namespace TDL
 {
@@ -15,14 +17,19 @@ namespace TDL
         public event Action<UserControl>? CambiarVista;
         private TareaService _tareaService;
         private UsuarioService _usuarioService;
+
         public AdminAggView()
         {
             InitializeComponent();
             var contexto = new AppDbContext();
             var tarearepo = new TareaRepository(contexto);
-            _tareaService = new TareaService(tarearepo);
+            var historialRepo = new HistorialAccionRepository(contexto);
 
-            _tareaService = new TareaService(tarearepo);
+            var historialService = new HistorialAccionService(historialRepo);
+
+          
+
+            _tareaService = new TareaService(tarearepo, historialService);
             cmbUsuarios.ItemsSource = _tareaService.ObtenerTecnico();
             cmbUsuarios.DisplayMemberPath = "Nombre";
             cmbUsuarios.SelectedValuePath = "ID";

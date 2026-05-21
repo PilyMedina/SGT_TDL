@@ -26,6 +26,9 @@
     <Compile Update="Views\AdminView\Prueba.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\HistorialView\HistorialTotalView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\LoginAll\TokenView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

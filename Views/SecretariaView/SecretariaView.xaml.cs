@@ -22,9 +22,15 @@ namespace TDL
             
             var contexto = new AppDbContext();
             var tarearepo = new TareaRepository(contexto);
-            _tareaService = new TareaService(tarearepo);
+            var historialRepo = new HistorialAccionRepository(contexto);
 
-           _tareaService = new TareaService(tarearepo);
+            var historialService = new HistorialAccionService(historialRepo);
+
+
+
+            _tareaService = new TareaService(tarearepo, historialService);
+
+           
             cmbUsuarios.ItemsSource = _tareaService.ObtenerTecnico();
             cmbUsuarios.DisplayMemberPath = "Nombre";
             cmbUsuarios.SelectedValuePath = "ID";

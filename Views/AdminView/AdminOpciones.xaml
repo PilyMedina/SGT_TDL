@@ -70,6 +70,10 @@
             <Button Content="Editar Tarea"
                 Style="{StaticResource MenuButtonStyle}"
                 Click="EditarTarea_Click"/>
+            
+            <Button Content="Ver Historial"
+                 Style="{StaticResource MenuButtonStyle}"
+                 Click="Historial_Click"/>
 
             <Button Content="Agregar Usuario"
                 Style="{StaticResource MenuButtonStyle}"

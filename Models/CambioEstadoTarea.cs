@@ -1,6 +1,6 @@
 ﻿namespace TDL.Models
 {
-    public class HistorialTarea
+    public class CambioEstadoTarea
     {
        
             public int ID { get; set; }

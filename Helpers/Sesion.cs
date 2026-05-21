@@ -6,7 +6,6 @@
 
         public static string NombreUsuario { get; set; }
 
-        
     }
    
 }

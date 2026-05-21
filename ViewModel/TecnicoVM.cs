@@ -1,9 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using DocumentFormat.OpenXml.InkML;
+using System.Collections.ObjectModel;
+using System.Linq;
 using TDL.Data;
 using TDL.Models;
 using TDL.Repositories;
 using TDL.Services;
-using System.Linq;
+using TDL.Services.Interfaces;
 
 namespace TDL.ViewModel
 {
@@ -19,8 +21,17 @@ namespace TDL.ViewModel
         {
             var context = new AppDbContext();
 
-            var repo = new TareaRepository(context);
-            _service = new TareaService(repo);
+            //var repo = new TareaRepository(context);
+            //_service = new TareaService(repo);
+
+            var tarearepo = new TareaRepository(context);
+            var historialRepo = new HistorialAccionRepository(context);
+
+            var historialService = new HistorialAccionService(historialRepo);
+
+
+
+            _service = new TareaService(tarearepo, historialService);
 
             ListaTareas = new ObservableCollection<Tarea>(
                    _service.ObtenerTareasPorTecnico(idTecnico)

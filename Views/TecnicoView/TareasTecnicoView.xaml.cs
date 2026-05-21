@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using DocumentFormat.OpenXml.InkML;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using TDL.Data;
@@ -19,8 +20,14 @@ namespace TDL
         {
             InitializeComponent();
             var context = new AppDbContext();
-            var repo = new TareaRepository(context);
-            _tareaService = new TareaService(repo);
+            var tarearepo = new TareaRepository(context);
+            var historialRepo = new HistorialAccionRepository(context);
+
+            var historialService = new HistorialAccionService(historialRepo);
+
+
+
+            _tareaService = new TareaService(tarearepo, historialService);
             CargarTareas();
         }
 

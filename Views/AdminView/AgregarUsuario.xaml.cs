@@ -23,7 +23,7 @@ namespace TDL
             _usuarioService = new UsuarioService(repo);
 
         }
-       
+
 
         private void btnAgregar_Click(object sender, RoutedEventArgs e)
         {
@@ -31,8 +31,15 @@ namespace TDL
             {
                 int idRol = 0;
 
+                // VALIDAR UNA SOLA PALABRA
+                if (txtnombre.Text.Trim().Split(' ').Length > 1 ||
+                        txtapellido.Text.Trim().Split(' ').Length > 1 ||
+                        txtpassword.Text.Trim().Split(' ').Length > 1)
+                {
+                    MessageBox.Show("Solo se permite una palabra en cada campo");
+                    return;
+                }
                 // ROLES
-
                 if (rbadmin.IsChecked == true)
                 {
                     idRol = 3;
@@ -47,7 +54,6 @@ namespace TDL
                 }
 
                 // GUARDAR
-
                 _usuarioService.AgregarUsuario(
                     txtnombre.Text,
                     txtapellido.Text,
@@ -61,7 +67,7 @@ namespace TDL
             catch (Exception ex)
             {
                 MessageBox.Show(
-       ex.InnerException?.Message ?? ex.Message);
+                    ex.InnerException?.Message ?? ex.Message);
             }
         }
         private void LimpiarCampos()

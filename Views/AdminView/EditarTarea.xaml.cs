@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using DocumentFormat.OpenXml.InkML;
+using System.Windows;
 using System.Windows.Controls;
 using TDL.Data;
 using TDL.Models;
@@ -20,9 +21,14 @@ namespace TDL
 
             var context = new AppDbContext();
 
-            var repo = new TareaRepository(context);
+            var tarearepo = new TareaRepository(context);
+            var historialRepo = new HistorialAccionRepository(context);
 
-            _tareaService = new TareaService(repo);
+            var historialService = new HistorialAccionService(historialRepo);
+
+
+
+            _tareaService = new TareaService(tarearepo, historialService);
 
             CargarTareas();
 
@@ -158,7 +164,7 @@ namespace TDL
             {
                 _tareaService.EliminarTarea(tareaSeleccionada.ID_tarea);
 
-                MessageBox.Show("Tarea eliminada");
+                //MessageBox.Show("Tarea eliminada");
 
                 LimpiarFormulario();
 

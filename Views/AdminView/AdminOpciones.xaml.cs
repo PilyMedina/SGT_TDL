@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using TDL.Helpers;
+using TDL.Views.Historial;
 
 namespace TDL.AdminView
 {
@@ -26,6 +27,10 @@ namespace TDL.AdminView
         private void EditarTarea_Click(object sender, RoutedEventArgs e)
         {
             CambiarVista?.Invoke(new EditarTarea());
+        }
+        private void Historial_Click(object sender, RoutedEventArgs e)
+        {
+            CambiarVista?.Invoke(new HistorialTotalView());
         }
 
         private void AgregarUsuario_Click(object sender, RoutedEventArgs e)

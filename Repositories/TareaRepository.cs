@@ -2,10 +2,12 @@
 using TDL.Data;
 using TDL.Models;
 using TDL.ViewModel;
+using TDL.Repositories;
+using TDL.Repositories.Interfaces;
 
 namespace TDL.Repositories
 {
-    public class TareaRepository
+    public class TareaRepository : ITareaRepository
     {
         private readonly AppDbContext _context;
 
@@ -24,6 +26,7 @@ namespace TDL.Repositories
                     join p in _context.Prioridades on t.ID_prioridad equals p.ID
                     join u in _context.Usuarios on t.ID_tecnico equals u.ID
 
+                    where t.ID_estado != 6
                     orderby t.ID_tarea descending
 
                     select new TareaVM
@@ -49,7 +52,8 @@ namespace TDL.Repositories
         public List<Tarea> ObtenerPorTecnico(int idTecnico)
         {
             return _context.Tareas
-                .Where(t => t.ID_tecnico == idTecnico && t.ID_estado != 4)
+
+                .Where(t => t.ID_tecnico == idTecnico  && t.ID_estado !=4  && t.ID_estado !=6)
                 .Include(t => t.Estado)
                 .Include(t => t.Prioridad)
                 .OrderByDescending(t => t.ID_tarea)
@@ -70,7 +74,7 @@ namespace TDL.Repositories
                         join p in _context.Prioridades on t.ID_prioridad equals p.ID
                         join u in _context.Usuarios on t.ID_tecnico equals u.ID
 
-                        where t.ID_tecnico == idTecnico
+                        where t.ID_tecnico == idTecnico && t.ID_estado != 6
 
                         select new { t, e, p, u };
 
@@ -94,6 +98,7 @@ namespace TDL.Repositories
 
             return query
                 .OrderByDescending(x => x.t.ID_tarea)
+               
 
                 .Select(x => new TareaVM
                 {
@@ -126,7 +131,9 @@ namespace TDL.Repositories
                     join p in _context.Prioridades on t.ID_prioridad equals p.ID
                     join u in _context.Usuarios on t.ID_tecnico equals u.ID
 
-                    where t.Titulo.Contains(texto)
+                    where e.ID !=6
+                    &&(
+                    t.Titulo.Contains(texto)
                        || t.Descripcion.Contains(texto)
                        || e.Estado.Contains(texto)
                        || p.Prioridad.Contains(texto)
@@ -136,7 +143,7 @@ namespace TDL.Repositories
                        || (esFecha && (
                               t.Fecha_apertura.Date == fecha.Date
                            || t.Fecha_limite.Date == fecha.Date
-                          ))
+                          )))
 
                     orderby t.ID_tarea descending
 
@@ -160,7 +167,7 @@ namespace TDL.Repositories
         // =========================================
         // OBTENER POR ID
         // =========================================
-        public Tarea ObtenerPorID(int id)
+        public Tarea? ObtenerPorID(int id)
         {
             return _context.Tareas
                 .FirstOrDefault(t => t.ID_tarea == id);
@@ -191,7 +198,7 @@ namespace TDL.Repositories
                                        int idEstado,
                                        string justificacion)
         {
-            var historial = new HistorialTarea
+            var historial = new CambioEstadoTarea
             {
                 ID_tarea = idTarea,
                 ID_estado = idEstado,
@@ -199,7 +206,7 @@ namespace TDL.Repositories
                 FechaCambio = DateTime.Now
             };
 
-            _context.HistorialTareas.Add(historial);
+            _context.CambioEstadoTareas.Add(historial);
 
             _context.SaveChanges();
         }

@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using TDL.Data;
 using TDL.Helpers;
+using System.Text.RegularExpressions;
 using TDL.Repositories;
 using TDL.Services;
 
@@ -30,15 +31,33 @@ namespace TDL
 
                 if (usuario != null)
                 {
-                    // VALIDAR QUE LAS CONTRASEÑAS COINCIDAN
+                    // VALIDAR QUE COINCIDAN
                     if (txtNuevaPassword.Password != txtConfirmarPassword.Password)
                     {
                         MessageBox.Show("Las contraseñas no coinciden");
                         return;
                     }
 
+                    string password = txtNuevaPassword.Password;
+
+                    // VALIDAR SEGURIDAD
+                    bool valida =
+                        password.Length >= 8 &&
+                        Regex.IsMatch(password, "[A-Z]") &&      // Mayúscula
+                        Regex.IsMatch(password, "[a-z]") &&      // Minúscula
+                        Regex.IsMatch(password, "[0-9]") &&      // Número
+                        Regex.IsMatch(password, "[^a-zA-Z0-9]"); // Caracter especial
+
+                    if (!valida)
+                    {
+                        MessageBox.Show(
+                            "La contraseña debe tener mínimo 8 caracteres, " +
+                            "una mayúscula, una minúscula, un número y un carácter especial.");
+                        return;
+                    }
+
                     string nuevaContrasena =
-                        SeguridadHelper.Encriptar(txtNuevaPassword.Password);
+                        SeguridadHelper.Encriptar(password);
 
                     usuario.Passsword = nuevaContrasena;
 

@@ -1,4 +1,6 @@
-﻿using TDL.Models;
+﻿using System.Windows;
+using TDL.Helpers;
+using TDL.Models;
 using TDL.Repositories;
 using TDL.Services.Interfaces;
 using TDL.ViewModel;
@@ -10,10 +12,12 @@ namespace TDL.Services
     public class TareaService : ITareaService
     {
         private readonly TareaRepository _repo;
+        private readonly IHistorialAccionService _historialService;
 
-        public TareaService(TareaRepository repo)
+        public TareaService(TareaRepository repo, IHistorialAccionService historialService)
         {
             _repo = repo;
+            _historialService = historialService;
         }
         public void CrearTarea(
             string titulo,
@@ -35,6 +39,12 @@ namespace TDL.Services
                 Duracion = DateTime.Now
             };
             _repo.Agregar(tarea);
+
+            _historialService.RegistrarMovimiento(
+              tarea.ID_tarea,
+              "CREAR",
+              $"Se creó la tarea {tarea.Titulo}",
+              Sesion.UsuarioId);
         }
         //Ver todas las tareas
         public List<TareaVM> ObtenerTareas()
@@ -105,6 +115,11 @@ namespace TDL.Services
         public void EditarTarea(Tarea tarea)
         {
             _repo.EditarTarea(tarea);
+            _historialService.RegistrarMovimiento(
+            tarea.ID_tarea,
+            "EDITAR",
+            $"Se editó la tarea {tarea.Titulo}",
+            Sesion.UsuarioId);
         }
         public Tarea ObtenerPorID(int id)
         {
@@ -112,7 +127,23 @@ namespace TDL.Services
         }
         public void EliminarTarea(int id)
         {
-            _repo.EliminarTarea(id);
+            var tarea = _repo.ObtenerPorID(id);
+
+            if (tarea == null)
+            {
+                MessageBox.Show("La tarea no existe");
+                return;
+            }
+
+            tarea.ID_estado = 6;
+
+            _repo.Actualizar(tarea);
+
+            _historialService.RegistrarMovimiento(
+                tarea.ID_tarea,
+                "ELIMINAR",
+                $"Se eliminó la tarea {tarea.Titulo}",
+                Sesion.UsuarioId); 
         }
 
     }

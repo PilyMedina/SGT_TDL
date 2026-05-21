@@ -1,5 +1,4 @@
 ﻿
-using DocumentFormat.OpenXml.Math;
 using System.Windows;
 using System.Windows.Controls;
 using TDL.Data;
@@ -7,8 +6,8 @@ using TDL.Helpers;
 using TDL.Models;
 using TDL.Repositories;
 using TDL.Services;
-using TDL.Services.Interfaces;
 using TDL.ViewModel;
+using System.Linq;
 
 namespace TDL
 {
@@ -23,8 +22,14 @@ namespace TDL
         {
             InitializeComponent();
             var contexto = new AppDbContext();
-            var tareaRepo = new TareaRepository(contexto);
-            _tareaService = new TareaService(tareaRepo);
+            var tarearepo = new TareaRepository(contexto);
+            var historialRepo = new HistorialAccionRepository(contexto);
+
+            var historialService = new HistorialAccionService(historialRepo);
+
+
+
+            _tareaService = new TareaService(tarearepo, historialService);
 
             DataContext = new TecnicoVM(idTecnico);
 
@@ -40,26 +45,43 @@ namespace TDL
         private void btnguardar(object sender, RoutedEventArgs e)
         {
 
-            var tarea = (sender as Button).DataContext as Tarea; 
-            if (tarea == null) return; 
-            try 
-            { 
-                if (string.IsNullOrWhiteSpace(tarea.Justificacion)) 
-                { 
-                    MessageBox.Show("Debe escribir una justificacion"); 
-                    return; 
-                } 
-                if (tarea.ID_estado == 1) 
-                { MessageBox.Show("Debe seleccionar un estado"); 
-                    return; }
+            var tarea = (sender as Button).DataContext as Tarea;
+            if (tarea == null) return;
+            try
+            {
+                if (tarea.ID_estado == 1)
+                {
+                    MessageBox.Show("Debe seleccionar un estado");
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(tarea.Justificacion))
+                {
+                    if (tarea.ID_estado == 4)
+                        MessageBox.Show("Debe escribir la solución");
+                    else
+                        MessageBox.Show("Debe escribir una justificación");
+
+                    return;
+                }
+
                 _tareaService.ActualizarTarea(tarea);
-                var vm = this.DataContext as TecnicoVM; 
-            } catch (Exception ex) 
-            { MessageBox.Show(ex.Message); 
+                int estadoSeleccionado = tarea.ID_estado;
+                tarea.ID_estado = estadoSeleccionado;
+
+                tarea.Justificacion = "";
+
+                MessageBox.Show("Tarea actualizada correctamente");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
 
-           
+
         }
+
+
         private void Estado_Checked(object sender, RoutedEventArgs e)
         {
             var radio = sender as RadioButton;

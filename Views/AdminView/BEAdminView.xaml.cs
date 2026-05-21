@@ -1,4 +1,5 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.InkML;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -24,8 +25,14 @@ namespace TDL
         {
             InitializeComponent();
             var context = new AppDbContext();
-            var repo = new TareaRepository(context);
-            _tareaService = new TareaService(repo);
+            var tarearepo = new TareaRepository(context);
+            var historialRepo = new HistorialAccionRepository(context);
+
+            var historialService = new HistorialAccionService(historialRepo);
+
+
+
+            _tareaService = new TareaService(tarearepo, historialService);
 
             dgbuscar.ItemsSource = new List<object>();
             CargarTareas();
