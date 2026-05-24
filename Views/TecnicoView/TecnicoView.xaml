@@ -17,7 +17,7 @@
         <!-- IZQUIERDA: LISTA DE TAREAS -->
         <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
 
-            <ItemsControl ItemsSource="{Binding ListaTareas}">
+            <ItemsControl  x:Name="icTareas" ItemsSource="{Binding ListaTareas}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Margin="10"
@@ -66,8 +66,8 @@
 
                                 <!-- PRIORIDAD (BADGE PRO) -->
                                 <Border CornerRadius="8"
-                    Padding="8,3"
-                    HorizontalAlignment="Left">
+                                        Padding="8,3"
+                                        HorizontalAlignment="Left">
 
                                     <Border.Style>
                                         <Style TargetType="Border">
@@ -88,13 +88,12 @@
                                     </Border.Style>
 
                                     <TextBlock Foreground="White"
-                           FontSize="12"
-                           FontWeight="Bold">
+                                               FontSize="12"
+                                               FontWeight="Bold">
 
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="Text" Value="Sin prioridad"/>
-
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding ID_prioridad}" Value="1">
                                                         <Setter Property="Text" Value="Alta"/>
@@ -108,8 +107,80 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </TextBlock.Style>
+                                    </TextBlock>
+                                </Border>
+
+                                <!-- ESTADO -->
+                                <Border CornerRadius="8"
+                                        Padding="8,3"
+                                        HorizontalAlignment="Left"
+                                        Margin="0,5,0,0">
+
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="#6B7280"/>
+
+                                            <Style.Triggers>
+
+                                                <DataTrigger Binding="{Binding ID_estado}" Value="1">
+                                                    <Setter Property="Background" Value="#132D6B"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding ID_estado}" Value="2">
+                                                    <Setter Property="Background" Value="#132D6B"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding ID_estado}" Value="3">
+                                                    <Setter Property="Background" Value="#132D6B"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding ID_estado}" Value="4">
+                                                    <Setter Property="Background" Value="#132D6B"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding ID_estado}" Value="5">
+                                                    <Setter Property="Background" Value="#132D6B"/>
+                                                </DataTrigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+
+                                    <TextBlock Foreground="White"
+               FontSize="12"
+               FontWeight="Bold">
+
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+
+                                                <Style.Triggers>
+
+                                                    <DataTrigger Binding="{Binding ID_estado}" Value="1">
+                                                        <Setter Property="Text" Value="Abierta"/>
+                                                    </DataTrigger>
+
+                                                    <DataTrigger Binding="{Binding ID_estado}" Value="2">
+                                                        <Setter Property="Text" Value="En proceso"/>
+                                                    </DataTrigger>
+
+                                                    <DataTrigger Binding="{Binding ID_estado}" Value="3">
+                                                        <Setter Property="Text" Value="Pendiente"/>
+                                                    </DataTrigger>
+
+                                                    <DataTrigger Binding="{Binding ID_estado}" Value="4">
+                                                        <Setter Property="Text" Value="Cerrado"/>
+                                                    </DataTrigger>
+
+                                                    <DataTrigger Binding="{Binding ID_estado}" Value="5">
+                                                        <Setter Property="Text" Value="No completada"/>
+                                                    </DataTrigger>
+
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
 
                                     </TextBlock>
+
                                 </Border>
 
                                 <!-- ESTADO -->
@@ -125,10 +196,11 @@
 
                                     <StackPanel>
                                         <TextBlock Text="Justificación / Solucion"
-                                   FontSize="12"
-                                   Foreground="#374151"/>
+                                                   FontSize="12"
+                                                   Foreground="#374151"/>
 
-                                        <TextBox Text="{Binding Justificacion, Mode=TwoWay}"
+                                        <TextBox  
+                                         Text="{Binding Justificacion, Mode=TwoWay}"
                                          Width="220"
                                          Height="70"
                                          Background="#F9FAFB"

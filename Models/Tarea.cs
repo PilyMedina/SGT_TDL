@@ -1,4 +1,5 @@
 ﻿
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,6 +21,7 @@ namespace TDL.Models
         public  string Descripcion { get; set; }
         
         public  string? Justificacion { get; set; }
+
         [Column("JustificacionCierre")]
         public string? JustificacionCierre { get; set; }
         [Required]

@@ -47,7 +47,9 @@ namespace TDL
         {
             var context = new AppDbContext();
 
-            cbestado.ItemsSource = context.Estados.ToList();
+            cbestado.ItemsSource = context.Estados
+                .Where(x => x.ID < 6)
+                .ToList();
 
             cbprioridad.ItemsSource = context.Prioridades.ToList();
 
@@ -163,8 +165,6 @@ namespace TDL
             try
             {
                 _tareaService.EliminarTarea(tareaSeleccionada.ID_tarea);
-
-                //MessageBox.Show("Tarea eliminada");
 
                 LimpiarFormulario();
 

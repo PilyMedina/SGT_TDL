@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using TDL.Data;
@@ -7,13 +8,14 @@ using TDL.Models;
 using TDL.Repositories;
 using TDL.Services;
 using TDL.ViewModel;
-using System.Linq;
 
 namespace TDL
 {
     /// <summary>
     /// Lógica de interacción para TecnicoView.xaml
     /// </summary>
+    /// 
+
     public partial class TecnicoView : UserControl
     {
         private TareaService _tareaService;
@@ -46,6 +48,7 @@ namespace TDL
         {
 
             var tarea = (sender as Button).DataContext as Tarea;
+           
             if (tarea == null) return;
             try
             {
@@ -66,19 +69,19 @@ namespace TDL
                 }
 
                 _tareaService.ActualizarTarea(tarea);
-                int estadoSeleccionado = tarea.ID_estado;
-                tarea.ID_estado = estadoSeleccionado;
 
+               
+               
+                icTareas.Items.Refresh();
                 tarea.Justificacion = "";
 
                 MessageBox.Show("Tarea actualizada correctamente");
+               
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-
-
         }
 
 
@@ -103,6 +106,10 @@ namespace TDL
         {
             var mainWindow = (MainWindow)Window.GetWindow(this);
             mainWindow.MainContent.Content = new CamPassView(Sesion.UsuarioId);
+        }
+        private void Recargar_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
 
 
