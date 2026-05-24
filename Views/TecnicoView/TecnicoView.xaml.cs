@@ -46,10 +46,10 @@ namespace TDL
         }
         private void btnguardar(object sender, RoutedEventArgs e)
         {
-
             var tarea = (sender as Button).DataContext as Tarea;
-           
+
             if (tarea == null) return;
+
             try
             {
                 if (tarea.ID_estado == 1)
@@ -68,15 +68,34 @@ namespace TDL
                     return;
                 }
 
+                // BUSCAR TAREA ORIGINAL EN BD
+                var tareaOriginal = _tareaService.ObtenerPorID(tarea.ID_tarea);
+
+                var original = tareaOriginal.Justificacion?.Trim().ToLower();
+                var nueva = tarea.Justificacion?.Trim().ToLower();
+
+                if (original == nueva)
+                {
+                    if (tarea.ID_estado == 4)
+                        MessageBox.Show("Debe escribir la solución");
+                    MessageBox.Show("Debe escribir una nueva justificación");
+                    return;
+                }
+
+                // VALIDAR QUE NO SOLO AGREGUEN 1 LETRA
+                if (nueva.Contains(original) && Math.Abs(nueva.Length - original.Length) <= 20)
+                {
+                   
+
+                    MessageBox.Show("La justificación es demasiado similar");
+                    return;
+                }
+
                 _tareaService.ActualizarTarea(tarea);
 
-               
-               
                 icTareas.Items.Refresh();
-                tarea.Justificacion = "";
 
                 MessageBox.Show("Tarea actualizada correctamente");
-               
             }
             catch (Exception ex)
             {
